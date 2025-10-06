@@ -1,0 +1,54 @@
+---
+import Button from './ui/Button.astro';
+import Github from '@/icons/github.svg';
+import ExternalLink from '@/icons/external-link.svg';
+import Card from './ui/Card.astro';
+
+import { projects } from '../constants';
+import SectionTitle from './ui/SectionTitle.astro';
+import Link from './ui/Link.astro';
+---
+
+<section id='projects' class='py-20'>
+  <div class='space-y-12'>
+    <SectionTitle title='Personal Projects' number='03' />
+
+    <div class='grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
+      {
+        projects.map((project, index) => (
+          <Card
+            key={index}
+            class='group overflow-hidden transition-all hover:shadow-xl p-6 flex flex-col justify-between h-full'
+          >
+            <div class='space-y-4'>
+              <h3 class='text-xl font-semibold'>{project.title}</h3>
+              <p class='text-sm leading-relaxed text-muted-foreground'>
+                {project.description}
+              </p>
+
+              <div class='' />
+
+              <div class='flex flex-wrap gap-2'>
+                {project.technologies.map((tech) => (
+                  <span class='font-mono text-xs'>{tech}</span>
+                ))}
+              </div>
+            </div>
+            <div class='flex gap-2'>
+              <Link
+                href={project.github}
+                target='_blank'
+                rel='noopener noreferrer'
+                variant='outline'
+                class='inline-flex items-center font-mono text-sm'
+              >
+                <Github class='mr-2 h-4 w-4' />
+                GitHub
+              </Link>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>

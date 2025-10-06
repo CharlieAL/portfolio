@@ -1,0 +1,89 @@
+---
+import Button from './ui/Button.astro';
+import Github from '@/icons/github.svg';
+import Linkedin from '@/icons/linkedin.svg';
+import Mail from '@/icons/mail.svg';
+import ArrowRight from '@/icons/arrow-right.svg';
+import Link from './ui/Link.astro';
+---
+
+<section
+  id='home'
+  class='flex min-h-[calc(100vh-4rem)] flex-col justify-center py-20'
+>
+  <div class='space-y-8'>
+    <div class='space-y-4'>
+      <p class='font-mono text-sm text-primary'>Hi, my name is</p>
+      <h1
+        class='md:text-5xl text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl translate-y-[-100px] opacity-0'
+      >
+        {'<Carlos Ramírez />'}
+      </h1>
+      <h2
+        class='md:text-4xl text-2xl font-bold tracking-tight text-muted-foreground sm:text-5xl lg:text-6xl'
+      >
+        I build things for the web.
+      </h2>
+    </div>
+
+    <p class='max-w-2xl md:text-lg leading-relaxed text-muted-foreground'>
+      Strong expertise in web development React, React Native (Expo) & Next js.
+      Skilled in modern UI development with Tailwind CSS. Hands-on experience
+      with GraphQL and tRPC for type-safe APIs. Passionate about TDD, clean
+      code, and software architecture. Microfrontend enthusiast with a focus on
+      maintainability and scalability.
+    </p>
+
+    <div class='flex flex-wrap items-center gap-4'>
+      <Button id='button-work' size='lg' class='group'>
+        see my work
+        <ArrowRight
+          class='transition-transform duration-200 group-hover:translate-x-1'
+        />
+      </Button>
+
+      <div class='flex items-center gap-3'>
+        <Link
+          variant='outline'
+          size='icon'
+          href='https://github.com/CharlieAL'
+          target='_blank'
+          rel='noopener noreferrer'
+          aria-label='GitHub'
+        >
+          <Github class='size-6' />
+        </Link>
+        <Link
+          variant='outline'
+          size='icon'
+          href='https://www.linkedin.com/in/elcharlie/'
+          target='_blank'
+          rel='noopener noreferrer'
+          aria-label='LinkedIn'
+        >
+          <Linkedin class='size-6' />
+        </Link>
+        <Link
+          variant='outline'
+          size='icon'
+          href='mailto:ramirez.carlos.alan@gmail.com'
+          aria-label='Email'
+        >
+          <Mail class='size-6' />
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const button = document.querySelector('#button-work') as HTMLButtonElement;
+  console.log(button);
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    const section = document.getElementById('experience');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>

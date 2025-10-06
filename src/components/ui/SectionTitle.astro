@@ -1,0 +1,11 @@
+---
+const { title, number } = Astro.props;
+---
+
+<div class='space-y-4'>
+  <h2 class='text-3xl font-bold tracking-tight sm:text-4xl'>
+    <span class='font-mono text-xl text-primary'>{number}.</span>
+    {title}
+  </h2>
+  <div class='h-px w-full max-w-xs bg-border'></div>
+</div>

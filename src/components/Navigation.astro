@@ -1,0 +1,187 @@
+---
+import Button from './ui/Button.astro';
+
+const navItems = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About Me' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<nav
+  class='sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg'
+>
+  <div class='mx-auto max-w-7xl px-6 lg:px-8'>
+    <div class='flex h-16 items-center justify-between'>
+      <button
+        id='nav-home-logo'
+        class='font-mono text-lg font-semibold tracking-tight'
+      >
+        {'< Me />'}
+      </button>
+
+      <div id='nav-items' class='hidden items-center gap-1 md:flex'>
+        {
+          navItems.map((item) => (
+            <Button
+              id={`nav-${item.id}`}
+              variant='ghost'
+              size='sm'
+              class={`font-mono md:text-sm text-xl `}
+            >
+              {item.label}
+            </Button>
+          ))
+        }
+      </div>
+      <Button
+        variant='ghost'
+        size='sm'
+        class='md:hidden'
+        aria-label='Menu'
+        id='nav-menu-button'
+      >
+        <div
+          id='nav-menu-icon'
+          class='flex flex-col justify-center items-center transition-all duration-300'
+        >
+          <div
+            id='nav-menu-icon-top'
+            class='w-6 h-1 bg-current mb-1 transition-all duration-300'
+          >
+          </div>
+          <div
+            id='nav-menu-icon-bottom'
+            class='w-6 h-1 bg-current transition-all duration-300'
+          >
+          </div>
+        </div>
+      </Button>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // animación del ícono del menú
+  const menuIconTop = document.getElementById(
+    'nav-menu-icon-top'
+  ) as HTMLDivElement;
+  const menuIconBottom = document.getElementById(
+    'nav-menu-icon-bottom'
+  ) as HTMLDivElement;
+  const menuButton = document.getElementById(
+    'nav-menu-button'
+  ) as HTMLButtonElement;
+  let menuOpen = false;
+  menuButton.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      menuIconTop.classList.add('rotate-45', 'translate-y-1');
+      menuIconBottom.classList.add('-rotate-45', '-translate-y-1');
+    } else {
+      menuIconTop.classList.remove('rotate-45', 'translate-y-1');
+      menuIconBottom.classList.remove('-rotate-45', '-translate-y-1');
+    }
+  });
+</script>
+
+<script>
+  // Script para manejar el menú en pantallas pequeñas
+  const menuButton = document.getElementById(
+    'nav-menu-button'
+  ) as HTMLButtonElement;
+  const navItems = document.getElementById('nav-items') as HTMLDivElement;
+
+  menuButton.addEventListener('click', () => {
+    if (navItems.classList.contains('hidden')) {
+      navItems.classList.remove('hidden');
+      navItems.classList.add(
+        'flex',
+        'flex-col',
+        'absolute',
+        'top-16',
+        'right-5',
+        'bg-background',
+        'border',
+        'border-border',
+        'rounded-md',
+        'p-4',
+        'shadow-lg',
+        'text-4xl'
+      );
+    } else {
+      navItems.classList.add('hidden');
+      navItems.classList.remove(
+        'flex',
+        'flex-col',
+        'absolute',
+        'top-16',
+        'right-0',
+        'bg-background',
+        'border',
+        'border-border',
+        'rounded-md',
+        'p-4',
+        'shadow-lg'
+      );
+    }
+  });
+</script>
+
+<script>
+  const sections = ['home', 'about', 'experience', 'projects', 'contact'];
+  const navButtons = sections.map((id) => document.getElementById(`nav-${id}`));
+  const homeLogo = document.getElementById(
+    'nav-home-logo'
+  ) as HTMLButtonElement;
+
+  homeLogo.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  navButtons.forEach((btn, i) => {
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToSection(sections[i]);
+    });
+  });
+
+  function handleScroll() {
+    const scrollPosition = window.scrollY + 100;
+
+    for (const section of sections) {
+      const el = document.getElementById(section);
+      if (el) {
+        const { offsetTop, offsetHeight } = el;
+        if (
+          scrollPosition >= offsetTop &&
+          scrollPosition < offsetTop + offsetHeight
+        ) {
+          navButtons.forEach((btn, i) => {
+            if (!btn) return;
+            btn.classList.toggle('text-primary', sections[i] === section);
+            btn.classList.toggle(
+              'text-muted-foreground',
+              sections[i] !== section
+            );
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // marcar el inicial
+</script>

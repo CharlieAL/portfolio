@@ -1,0 +1,45 @@
+---
+import Card from './ui/Card.astro';
+import { experiences } from '../constants';
+import SectionTitle from './ui/SectionTitle.astro';
+---
+
+<section id='experience' class='py-20'>
+  <div class='space-y-12'>
+    <SectionTitle title='Work Experience' number='02' />
+
+    <div class='space-y-8'>
+      {
+        experiences.map((exp) => (
+          <Card class='p-6 transition-all hover:shadow-lg '>
+            <div class='space-y-4'>
+              <div class='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+                <div>
+                  <h3 class='text-xl font-semibold'>{exp.title}</h3>
+                  <p class='text-primary'>{exp.company}</p>
+                </div>
+                <p class='font-mono text-sm text-muted-foreground'>
+                  {exp.period}
+                </p>
+              </div>
+
+              <ul class='space-y-2'>
+                {exp.description.map((item, i) => (
+                  <li class='flex gap-2 text-muted-foreground text-sm text-pretty'>
+                    <span class='leading-relaxed'>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class='flex flex-wrap gap-2'>
+                {exp.technologies.map((tech) => (
+                  <span class='font-mono text-sm'>{tech}</span>
+                ))}
+              </div>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+  </div>
+</section>

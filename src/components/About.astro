@@ -1,0 +1,45 @@
+---
+import Card from './ui/Card.astro';
+import { technicalSkills } from '../constants';
+import SectionTitle from './ui/SectionTitle.astro';
+---
+
+<section id='about' class='py-20'>
+  <div class='space-y-12'>
+    <SectionTitle title='About Me' number='01' />
+
+    <div class='grid gap-12 lg:grid-cols-2'>
+      <div
+        class='flex flex-col justify-center md:text-2xl sm:text-xl text-pretty font-mono'
+      >
+        <p class='leading-relaxed'>
+          I'm Carlos Ramírez, a passionate web developer with expertise in
+          building modern, responsive, and user-friendly web applications. I
+          enjoy turning complex problems into simple, beautiful, and intuitive
+          designs. When I'm not coding, you'll find me exploring the latest tech
+          trends.
+        </p>
+      </div>
+
+      <Card class='p-6'>
+        <h3 class='font-mono text-lg text-primary'>Technical Skills</h3>
+        <ul class=''>
+          {
+            technicalSkills.map((skill) => (
+              <li class='mb-4 flex flex-col gap-1 '>
+                <div class='flex items-center gap-2'>
+                  <span class='font-semibold first-letter:uppercase'>
+                    {skill.name}:&nbsp;
+                  </span>
+                </div>
+                <span class='font-mono text-sm'>
+                  {skill.details.join(', ')}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </Card>
+    </div>
+  </div>
+</section>

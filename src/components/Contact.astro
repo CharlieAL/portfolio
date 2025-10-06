@@ -1,0 +1,182 @@
+---
+import Card from './ui/Card.astro';
+import Mail from '@/icons/mail.svg';
+import Phone from '@/icons/phone.svg';
+import MapPin from '@/icons/map-pin.svg';
+import Button from './ui/Button.astro';
+import SectionTitle from './ui/SectionTitle.astro';
+---
+
+<section id='contact' class='py-20'>
+  <div class='space-y-12'>
+    <SectionTitle title='Contact Me' number='04' />
+
+    <div class='grid gap-8 lg:grid-cols-2'>
+      <div class='flex flex-col gap-4'>
+        <a href='mailto:ramirez.carlos.alan@gmail.com' class='group'>
+          <Card class='flex items-center gap-4 group-hover:bg-accent/50 p-4'>
+            <div
+              class='flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white'
+            >
+              <Mail class='size-6' />
+            </div>
+            <div>
+              <p class='text-sm text-muted-foreground text-center'>Email</p>
+              <span class='font-medium hover:text-primary'>
+                ramirez.carlos.alan@gmail.com
+              </span>
+            </div>
+          </Card>
+        </a>
+        <a href='tel:+6313026263' class='group'>
+          <Card class='flex items-center gap-4 group-hover:bg-accent/50 p-4'>
+            <div
+              class='flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white'
+            >
+              <Phone class='size-6' />
+            </div>
+            <div>
+              <p class='text-sm text-muted-foreground text-center'>Phone</p>
+              <span class='font-medium hover:text-primary'>
+                +52 (631) 302-6263
+              </span>
+            </div>
+          </Card>
+        </a>
+
+        <Card class='flex items-center gap-4 p-4 hover:bg-accent/50'>
+          <div
+            class='flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white'
+          >
+            <MapPin class='size-6' />
+          </div>
+          <div>
+            <p class='text-sm text-muted-foreground text-center'>Location</p>
+            <p class='font-medium'>Nogales, Sonora, México</p>
+          </div>
+        </Card>
+      </div>
+
+      <Card class='p-8'>
+        <form class='space-y-6'>
+          <div class='space-y-2'>
+            <label for='name' class='text-sm font-medium'> Name </label>
+            <input
+              id='name'
+              type='text'
+              class='w-full rounded-lg border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring'
+              placeholder='Your name...'
+            />
+            <p id='name-error' class='text-sm text-red-500 hidden'>
+              Please enter your name.
+            </p>
+          </div>
+
+          <div class='space-y-2'>
+            <label for='email' class='text-sm font-medium'> Email </label>
+            <input
+              id='email'
+              type='email'
+              class='w-full rounded-lg border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring'
+              placeholder='you@mail.com'
+            />
+            <p id='email-error' class='text-sm text-red-500 hidden'>
+              Please enter a valid email.
+            </p>
+          </div>
+
+          <div class='space-y-2'>
+            <label for='message' class='text-sm font-medium'> Message </label>
+            <textarea
+              id='message'
+              rows={4}
+              class='w-full rounded-lg border border-input bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring'
+              placeholder='Your message...'></textarea>
+            <p id='message-error' class='text-sm text-red-500 hidden'>
+              Please enter a message.
+            </p>
+          </div>
+
+          <Button type='submit' class='w-full'> Send Message </Button>
+        </form>
+        <p
+          class='mt-4 text-sm text-green-600 font-bold hidden'
+          id='success-message'
+        >
+          Your message has been sent successfully.
+        </p>
+      </Card>
+    </div>
+
+    <div class='border-t border-border pt-8 text-center'>
+      <p class='font-mono text-sm text-muted-foreground'>
+        © 2024 Carlos Alan Lerma Ramírez
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import emailjs from '@emailjs/browser';
+  (function () {
+    emailjs.init({
+      publicKey: '2u6ZFDxqVdAAOy0MX',
+    });
+  })();
+
+  const form = document.querySelector('form') as HTMLFormElement;
+  const button = form.querySelector('button') as HTMLButtonElement;
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    // get values
+    const name = (form.querySelector('#name') as HTMLInputElement).value;
+    const email = (form.querySelector('#email') as HTMLInputElement).value;
+    const message = (form.querySelector('#message') as HTMLTextAreaElement)
+      .value;
+    if (!name || !email || !message) {
+      if (!name) {
+        document.getElementById('name-error')?.classList.remove('hidden');
+      }
+      if (!email) {
+        document.getElementById('email-error')?.classList.remove('hidden');
+      }
+      if (!message) {
+        document.getElementById('message-error')?.classList.remove('hidden');
+      }
+    } else {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+      var templateParams = {
+        name: name,
+        mail: email,
+        message: message,
+      };
+      emailjs
+        .send('service_z059p62', 'template_g8yoybj', templateParams)
+        .then(
+          function (response) {
+            form.reset();
+            document
+              .getElementById('success-message')
+              ?.classList.remove('hidden');
+            setTimeout(() => {
+              document
+                .getElementById('success-message')
+                ?.classList.add('hidden');
+            }, 5000);
+            document.getElementById('name-error')?.classList.add('hidden');
+            document.getElementById('email-error')?.classList.add('hidden');
+            document.getElementById('message-error')?.classList.add('hidden');
+            console.log('SUCCESS!', response.status, response.text);
+          },
+          function (error) {
+            console.log('FAILED...', error);
+          }
+        )
+        .finally(() => {
+          button.disabled = false;
+          button.textContent = 'Send Message';
+        });
+    }
+  });
+</script>
