@@ -154,7 +154,13 @@ export const technicalSkills: Skill[] = [
   { name: 'backend', details: ['Node js', 'Spring Boot'] },
   {
     name: 'testing',
-    details: ['TDD', 'Jest', 'React Testing Library', 'Vitest'],
+    details: [
+      'TDD',
+      'Jest',
+      'React Testing Library',
+      'Vitest',
+      'playwright (e2e)',
+    ],
   },
   {
     name: 'devops',
